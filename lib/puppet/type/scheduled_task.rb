@@ -90,6 +90,10 @@ Puppet::Type.newtype(:scheduled_task) do
 
     newvalue(1)
     defaultto(1)
+
+    munge do |setting|
+      setting
+    end
   end
 
   newproperty(:trigger, :array_matching => :all) do
