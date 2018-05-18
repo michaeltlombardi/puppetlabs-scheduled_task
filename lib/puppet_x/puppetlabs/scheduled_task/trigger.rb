@@ -389,6 +389,9 @@ module Trigger
         raise ArgumentError.new("Must specify '#{field}' when defining a trigger")
       end
 
+      # The start_time must be canonicalized to match the format that the rest of the code expects
+      manifest_hash['start_time'] = Time.parse(manifest_hash['start_time']).strftime('%H:%M')
+
       # specific setting rules for schedule types
       case manifest_hash['schedule']
       when 'monthly'
@@ -440,6 +443,7 @@ module Trigger
         min_date = Date.new(1753, 1, 1)
         start_date = Date.parse(manifest_hash['start_date'])
         raise ArgumentError.new("start_date must be on or after 1753-01-01") unless start_date >= min_date
+        manifest_hash['start_date'] = start_date.strftime('%Y-%-m-%-d')
       end
 
       manifest_hash
